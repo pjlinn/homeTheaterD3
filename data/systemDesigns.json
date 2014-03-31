@@ -1,0 +1,58 @@
+[
+	{
+		"name" : "Design1", 
+		"cost" : 2000,
+		"performance" : 23,
+		"reliability" : 0.448
+	},
+	{
+		"name" : "Design2",
+		"cost" : 1928,
+		"performance" : 25,
+		"reliability" : 0.504
+	},
+	{
+		"name" : "Design3",
+		"cost" : 1900,
+		"performance" : 28,
+		"reliability" : 0.576
+
+	},
+	{
+		"name" : "Design4",
+		"cost" : 1828,
+		"performance" : 30,
+		"reliability" : 0.648
+	},
+	{
+		"name" : "Design5",
+		"cost" : 1998,
+		"performance" : 20,
+		"reliability" : 0.441		
+	},
+	{
+		"name" : "Design6",
+		"cost" : 1970,
+		"performance" : 23,
+		"reliability" : 0.504
+
+	},
+	{
+		"name" : "Design7",
+		"cost" : 1898,
+		"performance" : 25,
+		"reliability" : 0.567
+	},
+	{
+		"name" : "Design8",
+		"cost" : 1978,
+		"performance" : 23,
+		"reliability" : 0.567
+	},
+	{
+		"name" : "Design9",
+		"cost" : 1878,
+		"performance" : 28,
+		"reliability" : 0.729		
+	}
+]
