@@ -1,11 +1,23 @@
-.axis path,
-.axis line {
+.xAxis path,
+.xAxis line {
     fill: none;
     stroke: #eee;
     shape-rendering: crispEdges;
 }
 
-.axis text {
+.xAxis text {
+    font-family: sans-serif;
+    font-size: 11px;	
+}
+
+.yAxis path,
+.yAxis line {
+    fill: none;
+    stroke: #eee;
+    shape-rendering: crispEdges;
+}
+
+.yAxis text {
     font-family: sans-serif;
     font-size: 11px;	
 }

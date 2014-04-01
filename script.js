@@ -33,12 +33,19 @@ $(document).ready(function() {
 		.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 
+	svg.append("g")
+			.attr("class", "xAxis")
+			.attr("transform", "translate(0, " + height + ")");
+			// .call(xAxis);
+
+	svg.append("g")
+			.attr("class", "yAxis");
+			// .call(yAxis);
+
 	// function that will actually draw the plot based on the selected preference
 	// Have not yet figured out how to redraw points and axes
 	// Seems like I need to complete remove everything prior to drawing anything
 	var visualizeIt = function() {
-
-		// d3.selectAll("svg").remove();
 
 		// assign what it is we want to plot
 		var xVariable = $('#xVariable').val();
@@ -59,14 +66,13 @@ $(document).ready(function() {
 			x.domain([d3.min(data, function(d) { return d.xVariable; }) - 10, d3.max(data, function(d) { return d.xVariable; }) + 10]);
 			y.domain([d3.min(data, function(d) { return d.yVariable; }) - 10, d3.max(data, function(d) { return d.yVariable; }) + 10]);
 
-			// Draw the circles
-			svg.selectAll("circle")
-				.data(data)
-				.enter()
-				.append("circle")
-				.attr("class", "circle")
-				.attr("cx", function(d) { return x(d.xVariable); })
-				.attr("cy", function(d) { return y(d.yVariable); })
+			// New way to try and allow dynamic updates
+			var circle = svg.selectAll("circle")
+				.data(data);
+
+			circle.exit().remove();
+
+			circle.enter().append("circle")
 				.attr("r", 5)
 				.on("mouseover", function(d) {
 					tooltip.transition()
@@ -82,20 +88,56 @@ $(document).ready(function() {
 						.style("opacity", 0);
 				});
 
-			svg.append("g")
-					.attr("class", "axis")
-					.attr("transform", "translate(0, " + height + ")")
-					.call(xAxis);
+			circle
+				.attr("cx", function(d) { return x(d.xVariable); })
+				.attr("cy", function(d) { return y(d.yVariable); });
 
-			svg.append("g")
-					.attr("class", "axis")
-					.call(yAxis);		
+
+
+			// Draw the circles
+			// svg.selectAll("circle")
+			// 	.data(data)
+			// 	.enter()
+			// 	.append("circle")
+			// 	.attr("class", "circle")
+			// 	.attr("cx", function(d) { return x(d.xVariable); })
+			// 	.attr("cy", function(d) { return y(d.yVariable); })
+			// 	.attr("r", 5)
+			// 	.on("mouseover", function(d) {
+			// 		tooltip.transition()
+			// 			.duration(200)
+			// 			.style("opacity", .9);
+			// 		tooltip.html(d.name)
+			// 			.style("left", (d3.event.pageX + 5) + "px")
+			// 			.style("top", (d3.event.pageY - 28) + "px");
+			// 	})
+			// 	.on("mouseout", function(d) {
+			// 		tooltip.transition()
+			// 			.duration(500)
+			// 			.style("opacity", 0);
+			// 	});	
+
+			// Re-draw the axes -- works for some reason
+			// used this example: https://gist.github.com/phoebebright/3098488
+			svg.select(".xAxis")
+				// .transition().duration(1500).ease("sin-and-out")
+				.call(xAxis);
+			
+			svg.select(".yAxis")
+				// .transition().duration(1500).ease("sin-and-out")
+				.call(yAxis);
 		});
 	};
 	
+	// Clear the graph button function
+	var clearIt = function() {
+		d3.selectAll("svg").remove();
+	};
+
 	// Redraw function
 	// $("#visualizeIt").click(visualizeIt);
 	d3.select("#visualizeIt").on("click", visualizeIt);
+	d3.select("#clearIt").on("click", clearIt);
 
 });
 
