@@ -5,7 +5,7 @@ $(document).ready(function() {
 	var dataLocation = "/data/systemDesigns.json";
 
 	// canvas area and buffers
-	var margin = {left: 50, right: 20, top: 30, bottom: 30},
+	var margin = {left: 75, right: 20, top: 30, bottom: 50},
 		height = 300 - margin.top - margin.bottom,
 		width = 1400 - margin.left - margin.right;
 
@@ -42,6 +42,13 @@ $(document).ready(function() {
 			.attr("class", "yAxis");
 			// .call(yAxis);
 
+	// Define the label space to be updated in the visualizeIt function
+	svg.append("text")
+		.attr("class", "xLabel");
+
+	svg.append("text")
+		.attr("class", "yLabel");
+
 	// function that will actually draw the plot based on the selected preference
 	// Have not yet figured out how to redraw points and axes
 	// Seems like I need to complete remove everything prior to drawing anything
@@ -59,12 +66,11 @@ $(document).ready(function() {
 				d.name = d.name;
 				d.xVariable = d[xVariable];
 				d.yVariable = d[yVariable];
-				// console.log(d.cost);
 			});
 
 			// Establish the domain dynamically using the data, add buffer
-			x.domain([d3.min(data, function(d) { return d.xVariable; }) - 10, d3.max(data, function(d) { return d.xVariable; }) + 10]);
-			y.domain([d3.min(data, function(d) { return d.yVariable; }) - 10, d3.max(data, function(d) { return d.yVariable; }) + 10]);
+			x.domain([d3.min(data, function(d) { return d.xVariable; }) - 1, d3.max(data, function(d) { return d.xVariable; }) + 1]);
+			y.domain([d3.min(data, function(d) { return d.yVariable; }) - 1, d3.max(data, function(d) { return d.yVariable; }) + 1]);
 
 			// New way to try and allow dynamic updates
 			var circle = svg.selectAll("circle")
@@ -92,31 +98,6 @@ $(document).ready(function() {
 				.attr("cx", function(d) { return x(d.xVariable); })
 				.attr("cy", function(d) { return y(d.yVariable); });
 
-
-
-			// Draw the circles
-			// svg.selectAll("circle")
-			// 	.data(data)
-			// 	.enter()
-			// 	.append("circle")
-			// 	.attr("class", "circle")
-			// 	.attr("cx", function(d) { return x(d.xVariable); })
-			// 	.attr("cy", function(d) { return y(d.yVariable); })
-			// 	.attr("r", 5)
-			// 	.on("mouseover", function(d) {
-			// 		tooltip.transition()
-			// 			.duration(200)
-			// 			.style("opacity", .9);
-			// 		tooltip.html(d.name)
-			// 			.style("left", (d3.event.pageX + 5) + "px")
-			// 			.style("top", (d3.event.pageY - 28) + "px");
-			// 	})
-			// 	.on("mouseout", function(d) {
-			// 		tooltip.transition()
-			// 			.duration(500)
-			// 			.style("opacity", 0);
-			// 	});	
-
 			// Re-draw the axes -- works for some reason
 			// used this example: https://gist.github.com/phoebebright/3098488
 			svg.select(".xAxis")
@@ -126,18 +107,30 @@ $(document).ready(function() {
 			svg.select(".yAxis")
 				// .transition().duration(1500).ease("sin-and-out")
 				.call(yAxis);
+
+
+			// Axes labels, should also change with the select boxes
+			svg.select(".xLabel")
+				.attr("x", width - 100)
+				.attr("y", height + margin.bottom)
+				.attr("dy", "-.5em")
+				.style("text-anchor", "middle")
+				.text(xVariable);
+
+			svg.select(".yLabel")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 0 - margin.left)
+				.attr("x", 0 - (height / 2))
+				.attr("dy", "1em")
+				.style("text-anchor", "middle")
+				.text(yVariable);
 		});
-	};
-	
-	// Clear the graph button function
-	var clearIt = function() {
-		d3.selectAll("svg").remove();
 	};
 
 	// Redraw function
 	// $("#visualizeIt").click(visualizeIt);
 	d3.select("#visualizeIt").on("click", visualizeIt);
-	d3.select("#clearIt").on("click", clearIt);
+	// d3.select("#clearIt").on("click", clearIt);
 
 });
 
