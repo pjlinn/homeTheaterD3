@@ -11,17 +11,32 @@
 	<script type="text/javascript" src="script.js"></script>
 </head>
 <body>
+
+	<!-- Div to play around with the Json componenet file -->
+	<div id="systems">
+		<h4>Hi there! Please select your system requirements from
+			the options below!
+		</h4>
+		<form class="requirementsForm">
+			<label>Please select the types of components for your system</label>
+			<select name="component1" id ="component1"></select>
+		</form>
+		<ul id="systemData"></ul>
+	</div>
+
+	<!-- div for the visualization graph controls -->
 	<h5>Please Select 2 Home Theater System Requirements</h5>
 
 	<div id="requirements">
-		<p>x Axis Variable 	|	y Axis Varible</p>
 
+		<label>X-Axis Variable</label>
 		<select name="xVariable" id="xVariable">
 			<option value="cost"> Cost </option>
 			<option value="performance"> Performance </option>
 			<option value="reliability"> Reliability </option>
 		</select>
 
+		<label>Y-Axis Variable</label>
 		<select name="yVariable" id="yVariable">
 			<option value="cost"> Cost </option>
 			<option value="performance"> Performance </option>
@@ -32,6 +47,7 @@
 
 	</div>	
 
+	<!-- Where the D3 graph visualization goes -->
 	<div id="canvas"></div>
 
 </body>

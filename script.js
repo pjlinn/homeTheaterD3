@@ -1,31 +1,56 @@
 // JQuery, loads the script when the page is ready
 $(document).ready(function() {
 
-	// path to data
+	var systemDesigns = []; // Should be a global variable to hold system designs
+
+/*
+	Visualization Code
+	=======================================================
+	*
+	* Loads prior to clicking the graph it button
+	*
+	*
+	=======================================================
+*/
+	/*
+		Path to data for visualization, artifical data, not
+		created yet.
+	*/
 	var dataLocation = "/data/systemDesigns.json";
 
-	// canvas area and buffers
+	/*
+		Visualization canvas area and buffers
+	*/
 	var margin = {left: 75, right: 20, top: 30, bottom: 50},
 		height = 300 - margin.top - margin.bottom,
 		width = 1400 - margin.left - margin.right;
 
-	// add the tooltip, for hovering over
+	/*
+		Add the tooltip, for displaying design when 
+		hovering over point
+	*/
 	var tooltip = d3.select("#canvas")
 		.append("div")
 			.attr("class", "tooltip")
 			.style("opacity", 0);
 
-	// x - y scales
+	/*
+		x - y scale range
+	*/
 	var x = d3.scale.linear().range([0, width]);
 	var y = d3.scale.linear().range([height, 0]);
 
-	// Axes
+	/*
+		Axes, call this to draw the axes
+	*/
 	var xAxis = d3.svg.axis().scale(x)
 		.orient("bottom");
 	var yAxis = d3.svg.axis().scale(y)
 		.orient("left");
 
-	// svg element
+	/*	
+		svg element, allocates space for drawing
+	*/
 	var svg = d3.select("#canvas")
 		.append("svg")
 			.attr("width", width + margin.left + margin.right)
@@ -33,28 +58,37 @@ $(document).ready(function() {
 		.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top +")");
 
+	/*
+		allocates space for the axes
+	*/
 	svg.append("g")
 			.attr("class", "xAxis")
 			.attr("transform", "translate(0, " + height + ")");
-			// .call(xAxis);
 
 	svg.append("g")
 			.attr("class", "yAxis");
-			// .call(yAxis);
 
-	// Define the label space to be updated in the visualizeIt function
+	/*
+		Define the label space to be updated in the visualizeIt function
+	*/
 	svg.append("text")
 		.attr("class", "xLabel");
 
 	svg.append("text")
 		.attr("class", "yLabel");
 
-	// function that will actually draw the plot based on the selected preference
-	// Have not yet figured out how to redraw points and axes
-	// Seems like I need to complete remove everything prior to drawing anything
+	/*
+	Function that fires on the button click
+	=======================================================
+	*
+	* Dynamically draws the scatter plot, based on selected
+	* options for the axis variables
+	*
+	=======================================================
+	*/
 	var visualizeIt = function() {
 
-		// assign what it is we want to plot
+		// assign what it is we want to plot, comes from select boxes
 		var xVariable = $('#xVariable').val();
 		var yVariable = $('#yVariable').val();
 
@@ -73,6 +107,7 @@ $(document).ready(function() {
 			y.domain([d3.min(data, function(d) { return d.yVariable; }) - 1, d3.max(data, function(d) { return d.yVariable; }) + 1]);
 
 			// New way to try and allow dynamic updates
+			// Uses stuff from http://bost.ocks.org/mike/join/
 			var circle = svg.selectAll("circle")
 				.data(data);
 
@@ -98,7 +133,8 @@ $(document).ready(function() {
 				.attr("cx", function(d) { return x(d.xVariable); })
 				.attr("cy", function(d) { return y(d.yVariable); });
 
-			// Re-draw the axes -- works for some reason
+			// Re-draw the axes -- works for some reason -- didn't use transitions
+			// but I could
 			// used this example: https://gist.github.com/phoebebright/3098488
 			svg.select(".xAxis")
 				// .transition().duration(1500).ease("sin-and-out")
@@ -126,11 +162,127 @@ $(document).ready(function() {
 				.text(yVariable);
 		});
 	};
+	/*
+	END visualizeIt function
+	=======================================================
+	=======================================================
+	*/
 
-	// Redraw function
-	// $("#visualizeIt").click(visualizeIt);
+	/*
+		Redraw function using D3 instead of jquery.
+		Fires the function on each button click
+	*/
 	d3.select("#visualizeIt").on("click", visualizeIt);
+	// $("#visualizeIt").click(visualizeIt);
 	// d3.select("#clearIt").on("click", clearIt);
+/*
+	END Visualization Code
+	=======================================================
+	=======================================================
+*/
+
+/*
+	System Design Code
+	=======================================================
+	*
+	* Code that grabs the json file of components and
+	* builds different designs. Not scaleable or production
+	* quality, but should work for proof-of-concept
+	=======================================================
+*/
+
+	/*
+		JQuery function that goes to the URL in the first argument and
+		returns the json data
+	*/
+	$.getJSON("data/homeTheaterSystemComponents.json", function(data) {
+		var components = 	[]; // Used to hold the distinct type of components
+		var televisions = 	[]; // Holds information on each television
+		var speakers = 		[]; // Holds information on each speaker
+		var amplifiers = 	[]; // Holds information on each amplifier
+
+		/*
+			cycles though each json object, key is an index I think, val
+			is how I grab each property
+		*/
+		$.each(data, function(key, val) {
+			/*
+				"pushes" all component properties into an array, 
+				probably not scaleable
+
+				The if statements allocate each component's information
+				into its respective bucket
+			*/
+			components.push(val.component);
+			if (val.component == "television") { televisions.push(val.cost); };	
+			if (val.component == "speaker") { speakers.push(val.cost); };
+			if (val.component == "amplifier") {amplifiers.push(val.cost); };
+		});
+
+		/*
+			unique returns an array of components with all 
+			duplicates parsed out, then we call the printComponenets 
+			function on each element
+		*/
+		unique(components).forEach(printComponenets);
+
+		/*
+			Brute force functions to build a list of objects
+			that will look similar to the systemDesigns.json 
+			file and hopefully can be used in place of that file
+			in the scatter plot
+		*/
+		buildSystems(televisions, amplifiers, speakers);
+	});
+
+	/*
+		Got this off stack overflow, doesn't seem like JS has a 
+		collection that can't hold duplicates, so you have to use this
+		http://stackoverflow.com/questions/11688692/most-elegant-way-to-create-a-list-of-unique-items-in-javascript
+	*/
+	function unique(arr) {
+	    var u = {}, a = [];
+	    for(var i = 0, l = arr.length; i < l; ++i){
+	        if(!u.hasOwnProperty(arr[i])) {
+	            a.push(arr[i]);
+	            u[arr[i]] = 1;
+	        }
+	    }
+	    return a;
+	};
+
+	// Uses jquery to print to the components select box
+	function printComponenets(element, index, array) {
+		$("#component1").append("<option value='" + element + "'>" + element + "</option>");
+	};
+
+	// Quick function to test with
+	function printObject(element, index, array) {
+		console.log(element);
+	};
+
+	// Brute force way to build systems, pass 3 arrays of components
+	// not dynamic at all...wonder what the break point is...
+	function buildSystems(televisions, amplifiers, speakers) {
+		var sum = 0;
+		var counter = 1;
+		for (var i = televisions.length - 1; i >= 0; i--) {
+			for (var j = amplifiers.length - 1; j >= 0; j--) {
+				for (var k = speakers.length - 1; k >= 0; k--) {
+					sum = televisions[i] + amplifiers[j] + speakers[k];
+					systemDesigns.push(
+						{
+							"name" : "design" + counter,
+							"cost" : sum
+						}
+					);
+
+					counter++;
+				};
+			};
+		};
+		// console.log(systemDesigns);
+	};
 
 });
 
