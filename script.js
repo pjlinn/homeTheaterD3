@@ -1,3 +1,15 @@
+/*
+	TO-DO:
+	1. Read through Nefretti's thesis again and take notes on what
+	I can write about.
+
+	2. Add variables to capture all the design aggregates, not just
+	cost. Like performance, reliability, etc.
+
+	3. Figure out a way to port the systemDesigns array of objects
+	into the D3 visualizaion. Even if that means making it a new file
+*/
+
 // JQuery, loads the script when the page is ready
 $(document).ready(function() {
 
