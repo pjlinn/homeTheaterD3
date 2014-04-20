@@ -271,7 +271,7 @@ $(document).ready(function() {
 			duplicates parsed out, then we call the printComponenets 
 			function on each element
 		*/
-		unique(components).forEach(printComponenets);
+		// unique(components).forEach(printComponenets);
 
 		/*
 			Brute force functions to build a list of objects
@@ -301,9 +301,9 @@ $(document).ready(function() {
 	/*
 		Uses jquery to print to the components select box
 	*/
-	function printComponenets(element, index, array) {
-		$("#component1").append("<option value='" + element + "'>" + element + "</option>");
-	};
+	// function printComponenets(element, index, array) {
+	// 	$("#component1").append("<option value='" + element + "'>" + element + "</option>");
+	// };
 
 	/*
 		Quick function to test with by printing out
@@ -334,7 +334,10 @@ $(document).ready(function() {
 							"name" : "design " + counter,
 							"cost" : sum,
 							"performance" : performance,
-							"reliability" : reliability
+							"reliability" : reliability,
+							"television" : televisions[i].brand,
+							"amplifier" : amplifiers[j].brand,
+							"speaker" : speakers[k].brand
 						}
 					);
 
@@ -343,7 +346,12 @@ $(document).ready(function() {
 			};
 		};
 		// console.log(systemDesigns[0].name + " " + systemDesigns[0].cost + " " + systemDesigns[0].performance + " " + systemDesigns[0].reliability);
+		/*
+			Build a table of deisgns to complement the graph
+		*/		
+		systemDesigns.forEach(function(x) {
+			$("#designTable").append("<tr><td>" + x.name + "</td><td>" + x.television + "</td><td>" + x.speaker + "</td><td>" + x.amplifier +"</td></tr>");
+		});		
 	};
-
 });
 

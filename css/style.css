@@ -1,0 +1,38 @@
+.xAxis path,
+.xAxis line {
+    fill: none;
+    stroke: #eee;
+    shape-rendering: crispEdges;
+}
+
+.xAxis text {
+    font-family: sans-serif;
+    font-size: 11px;	
+}
+
+.yAxis path,
+.yAxis line {
+    fill: none;
+    stroke: #eee;
+    shape-rendering: crispEdges;
+}
+
+.yAxis text {
+    font-family: sans-serif;
+    font-size: 11px;	
+}
+
+.circle {
+    fill: #222;
+}
+
+.tooltip {
+  	position: absolute;
+  	width: 200px;
+  	height: 28px;
+ 	pointer-events: none;
+}
+
+#systems {
+  margin: 0 auto;
+}

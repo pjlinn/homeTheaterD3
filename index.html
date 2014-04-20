@@ -4,28 +4,30 @@
 	<meta charset="utf-8">
 	<title>D3 Home Theater System</title>
 
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 
-	<script type="text/javascript" src="d3/d3.v3.js"></script>
+	<script type="text/javascript" src="lib/d3/d3.v3.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="script.js"></script>
+	<!-- <script src="gettingStarted.js"></script> -->
+	<!-- // <script src="server.js"></script> -->
 </head>
 <body>
 
 	<!-- Div to play around with the Json componenet file -->
 	<div id="systems">
-		<h4>Hi there! Please select your system requirements from
-			the options below!
-		</h4>
-		<form class="requirementsForm">
+		<h2> Home Theater System Solution Implmentation
+		</h2>
+<!-- 		<form class="requirementsForm">
 			<label>Please select the types of components for your system</label>
 			<select name="component1" id ="component1"></select>
-		</form>
+		</form> -->
 		<ul id="systemData"></ul>
 	</div>
 
 	<!-- div for the visualization graph controls -->
-	<h5>Please Select 2 Home Theater System Requirements</h5>
+	<h4>Please slect your axes for design comparison and then click "Graph It"</h4>
+	<h6>(Hover over a point on the graph to show the system deisgn)</h6>
 
 	<div id="requirements">
 
@@ -50,5 +52,17 @@
 	<!-- Where the D3 graph visualization goes -->
 	<div id="canvas"></div>
 
+
+	<!-- Table of designs -->
+	<div id="tableOfDeisngs">
+		<table border=1 id="designTable">
+			<tr>
+				<th>Design Name</th>
+				<th>Television</th>
+				<th>Speaker</th>
+				<th>Amplifier</th>
+			</tr>
+		</table>
+	</div>
 </body>
 </html>
