@@ -36,3 +36,12 @@
 #systems {
   margin: 0 auto;
 }
+
+body {
+  padding-top: 50px;
+}
+
+#requirements {
+  text-align: center;
+  padding-left: 20px;
+}

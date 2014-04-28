@@ -12,7 +12,6 @@
 
 // JQuery, loads the script when the page is ready
 $(document).ready(function() {
-
 	var systemDesigns = []; // Should be a global variable to hold system designs
 /*
 	Visualization Code
@@ -323,13 +322,13 @@ $(document).ready(function() {
 		var reliability = 0; 	// Total system reliability 
 		var counter = 1;		// Used to label design names
 
-		for (var i = televisions.length - 1; i >= 0; i--) {
-			for (var j = amplifiers.length - 1; j >= 0; j--) {
-				for (var k = speakers.length - 1; k >= 0; k--) {
+		for (var i = televisions.length - 1; i >= 0; i--) { // Loop through television container array
+			for (var j = amplifiers.length - 1; j >= 0; j--) { // Loop through amplifier container array
+				for (var k = speakers.length - 1; k >= 0; k--) { // Loop through speaker container array
 					sum = televisions[i].cost + amplifiers[j].cost + speakers[k].cost;
 					performance = (televisions[i].performance + amplifiers[j].performance + speakers[k].performance) / 3;
 					reliability = (televisions[i].reliability + amplifiers[j].reliability + speakers[k].reliability) / 3;
-					systemDesigns.push(
+					systemDesigns.push( // Add system design object to system design container array
 						{
 							"name" : "design " + counter,
 							"cost" : sum,
@@ -350,8 +349,14 @@ $(document).ready(function() {
 			Build a table of deisgns to complement the graph
 		*/		
 		systemDesigns.forEach(function(x) {
-			$("#designTable").append("<tr><td>" + x.name + "</td><td>" + x.television + "</td><td>" + x.speaker + "</td><td>" + x.amplifier +"</td></tr>");
+			$("#designTableBody").append("<tr><td>" + 
+				x.name + "</td><td>" + 
+				x.television + "</td><td>" + 
+				x.speaker + "</td><td>" + 
+				x.amplifier + "</td><td>"+
+				x.cost + "</td><td>" +
+				x.performance.toFixed(2) + "</td><td>" +
+				x.reliability.toFixed(2) +	"</td></tr>");
 		});		
 	};
 });
-

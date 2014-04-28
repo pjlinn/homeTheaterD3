@@ -4,20 +4,30 @@
 	<meta charset="utf-8">
 	<title>D3 Home Theater System</title>
 
+	<!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<!-- D3 -->
 	<script type="text/javascript" src="lib/d3/d3.v3.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<!-- JQuery, Bootstrap needs this, and I use it anyway -->
+	<script src="lib/jQuery/jquery-1.9.1.min.js"></script>
+	<!-- My script and buisness logic -->
 	<script type="text/javascript" src="script.js"></script>
-	<!-- <script src="gettingStarted.js"></script> -->
-	<!-- // <script src="server.js"></script> -->
+	<!-- Bootstrap -->
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+	          <a class="navbar-brand" href="#">Home Theater System Solution Implementation</a>
+			</div>
+		</div>
+	</div>
 	<!-- Div to play around with the Json componenet file -->
 	<div id="systems">
-		<h2> Home Theater System Solution Implmentation
-		</h2>
 <!-- 		<form class="requirementsForm">
 			<label>Please select the types of components for your system</label>
 			<select name="component1" id ="component1"></select>
@@ -25,11 +35,11 @@
 		<ul id="systemData"></ul>
 	</div>
 
-	<!-- div for the visualization graph controls -->
-	<h4>Please slect your axes for design comparison and then click "Graph It"</h4>
-	<h6>(Hover over a point on the graph to show the system deisgn)</h6>
-
 	<div id="requirements">
+
+		<!-- div for the visualization graph controls -->
+		<h4>Please slect your axes for design comparison and then click <span style="color:red">"Graph It!"</span></h4>
+		<h6>(Hover over a point on the graph to show the system deisgn)</h6>
 
 		<label>X-Axis Variable</label>
 		<select name="xVariable" id="xVariable">
@@ -45,7 +55,7 @@
 			<option value="reliability"> Reliability </option>
 		</select>
 
-		<button id="visualizeIt"> Graph It! </button>
+		<button id="visualizeIt" class="btn btn-primary"> Graph It! </button>
 
 	</div>	
 
@@ -54,15 +64,24 @@
 
 
 	<!-- Table of designs -->
-	<div id="tableOfDeisngs">
-		<table border=1 id="designTable">
-			<tr>
-				<th>Design Name</th>
-				<th>Television</th>
-				<th>Speaker</th>
-				<th>Amplifier</th>
-			</tr>
-		</table>
+	<div class="container">
+		<div id="tableOfDeisngs">
+			<table border=1 id="designTable" class="table table-striped table-hover">
+				<thead>
+				<tr>
+					<th>Design Name</th>
+					<th>Television</th>
+					<th>Speaker</th>
+					<th>Amplifier</th>
+					<th>Cost</th>
+					<th>Performance</th>
+					<th>Reliability</th>
+				</tr>
+				</thead>
+				<tbody id="designTableBody">
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 </html>
